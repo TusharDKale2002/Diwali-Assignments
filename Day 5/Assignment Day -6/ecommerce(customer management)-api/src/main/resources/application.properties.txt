@@ -1,0 +1,17 @@
+spring.application.name=ecommerce-api
+
+# H2 database (for demo)
+spring.datasource.url=jdbc:h2:mem:ecommerce-db
+spring.datasource.driver-class-name=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.h2.console.enabled=true
+
+# JPA settings
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+# Disable default Spring Security login form
+spring.security.user.name=
+spring.security.user.password=

@@ -1,0 +1,56 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using StudentApi.Data;
+using StudentApi.Models;
+
+
+namespace StudentApi.Controllers
+{
+[ApiController]
+[Route("api/[controller]")]
+public class StudentsController : ControllerBase
+{
+private readonly StudentContext _context;
+
+
+public StudentsController(StudentContext context)
+{
+_context = context;
+}
+
+
+// GET: api/students
+[HttpGet]
+public async Task<IActionResult> GetAll()
+{
+var students = await _context.Students.ToListAsync();
+return Ok(students);
+}
+
+
+// GET: api/students/{id}
+[HttpGet("{id:int}")]
+public async Task<IActionResult> GetById(int id)
+{
+var student = await _context.Students.FindAsync(id);
+if (student == null) return NotFound();
+return Ok(student);
+}
+
+
+// GET: api/students/marks?min=60&max=90
+[HttpGet("marks")]
+public async Task<IActionResult> GetByMarksRange([FromQuery] int min = 0, [FromQuery] int max = 100)
+{
+if (min > max) return BadRequest("min should be less than or equal to max");
+
+
+var students = await _context.Students
+.Where(s => s.Marks >= min && s.Marks <= max)
+.ToListAsync();
+
+
+return Ok(students);
+}
+}
+}
